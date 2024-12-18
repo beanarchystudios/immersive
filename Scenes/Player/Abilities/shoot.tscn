@@ -24,6 +24,10 @@ target_position = Vector3(0, 0, -50)
 debug_shape_custom_color = Color(1, 0, 0, 0.498039)
 script = ExtResource("1_7mmsb")
 
+[node name="FireRateTimer" type="Timer" parent="."]
+wait_time = 0.075
+one_shot = true
+
 [node name="BlasterPreloader" type="ResourcePreloader" parent="."]
 resources = [PackedStringArray("blasterA", "blasterB", "blasterC", "blasterD", "blasterE", "blasterF", "blasterG", "blasterI", "blasterJ", "blasterK", "blasterL", "blasterM", "blasterN", "blasterO", "blasterQ", "blasterR"), [ExtResource("2_er632"), ExtResource("3_q6gju"), ExtResource("4_78qio"), ExtResource("5_wgron"), ExtResource("6_6lfe5"), ExtResource("7_4nseb"), ExtResource("8_wnfcf"), ExtResource("9_40mx1"), ExtResource("10_xyssy"), ExtResource("11_k2751"), ExtResource("12_1vv1k"), ExtResource("13_05vjx"), ExtResource("14_ilkpa"), ExtResource("15_mdta0"), ExtResource("16_g2tdp"), ExtResource("17_6y3o0")]]
 script = ExtResource("18_q6gju")

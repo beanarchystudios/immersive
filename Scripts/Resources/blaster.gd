@@ -16,15 +16,18 @@ class_name Blaster extends Resource
 
 ## The time between shots for the blaster.
 @export var fire_rate := 0.075
-## The amount of recoil when the blaster is shot.
-@export var recoil := 0.015
+## The amount of recoil when the blaster is shot outside of ADS.
+@export var base_recoil := 0.015
+## The amount of recoil when the blaster is shot while ADS is active.
+@export var ads_recoil := 0.0075
 ## The amount of damage done to the other player when they are shot.
 @export var damage := 20.0
 
-func _init(p_model: PackedScene = preload("res://Assets/Models/Blasters/Kenney/blasterA.glb"), p_base_offset := Vector3(0.2, -0.2, -0.4), p_ads_offset := Vector3(0.0, -0.2, -0.4), p_fire_rate := 0.075, p_recoil := 0.015, p_damage := 20.0) -> void:
+func _init(p_model: PackedScene = preload("res://Assets/Models/Blasters/Kenney/blasterA.glb"), p_base_offset := Vector3(0.2, -0.2, -0.4), p_ads_offset := Vector3(0.0, -0.2, -0.4), p_fire_rate := 0.075, p_base_recoil := 0.015, p_ads_recoil := 0.0015, p_damage := 20.0) -> void:
 	model = p_model
 	base_offset = p_base_offset
 	ads_offset = p_ads_offset
 	fire_rate = p_fire_rate
-	recoil = p_recoil
+	base_recoil = p_base_recoil
+	ads_recoil = p_ads_recoil
 	damage = p_damage

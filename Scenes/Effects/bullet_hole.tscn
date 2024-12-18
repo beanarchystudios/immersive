@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo8rvw1lbsyd8"]
+
+[ext_resource type="Texture2D" uid="uid://y1xvhb0n6vij" path="res://Assets/Effects/bullet_hole.png" id="1_vq7gu"]
+
+[node name="BulletHole" type="Sprite3D"]
+pixel_size = 0.0004
+axis = 1
+shaded = true
+texture = ExtResource("1_vq7gu")

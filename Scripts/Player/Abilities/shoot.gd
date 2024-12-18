@@ -1,13 +1,15 @@
-extends RayCast3D
+class_name Shoot extends RayCast3D
 
 const CLIP_SCALE = 0.05
 const ADS_TRANSITION_TIME = 0.15
+const BULLET_HOLE = preload("res://Scenes/Effects/bullet_hole.tscn")
 
 @onready var fire_rate_timer: Timer = $FireRateTimer
 @onready var handle: Marker3D = $Handle
 
 @export var blaster_resources: Array[Blaster] = [
-	preload("res://Assets/Resources/Blasters/Kenney/blasterA.tres")
+	preload("res://Assets/Resources/Blasters/Kenney/blasterA.tres"),
+	preload("res://Assets/Resources/Blasters/Kenney/blasterB.tres")
 ]
 
 @export_group("Sway")
@@ -19,6 +21,7 @@ const ADS_TRANSITION_TIME = 0.15
 var current_blaster := 0:
 	set(value):
 		current_blaster = value
+		current_blaster %= blaster_resources.size()
 		change_blaster(current_blaster)
 
 var blaster_node: Node3D = null
@@ -34,6 +37,10 @@ func _input(event: InputEvent) -> void:
 			enter_ads()
 		else:
 			leave_ads()
+	elif event.is_action_pressed("next_blaster"):
+		current_blaster += 1
+	elif event.is_action_pressed("prev_blaster"):
+		current_blaster -= 1
 	elif event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		mouse_mov = -event.relative
 
@@ -67,6 +74,11 @@ func sway_blaster(delta: float) -> void:
 
 func change_blaster(new_blaster: int) -> void:
 	if blaster_resources.size() < new_blaster: return
+	
+	if blaster_node:
+		blaster_node.queue_free()
+		blaster_node = null
+	
 	blaster_resource = blaster_resources[new_blaster]
 	
 	var blaster: Node3D = blaster_resource.model.instantiate() as Node3D
@@ -90,17 +102,40 @@ func change_blaster(new_blaster: int) -> void:
 func shoot() -> Node3D:
 	fire_rate_timer.start()
 	
-	owner.rotation.y += randf_range(-blaster_resource.recoil / 2, blaster_resource.recoil / 2)
-	owner.pivot.rotation.x += blaster_resource.recoil
+	var recoil := blaster_resource.ads_recoil if ads else blaster_resource.base_recoil
+	print(recoil)
+	
+	owner.rotation.y += randf_range(-recoil / 2, recoil / 2)
+	owner._pivot.rotation.x += recoil
 	
 	var rot_tween := get_tree().create_tween()
-	blaster_node.rotation.x = -0.1
+	blaster_node.rotation.x = -recoil * 5
 	rot_tween.tween_property(blaster_node, "rotation:x", 0.0, fire_rate_timer.wait_time)
 	
 	var collider: Node3D = null
 	if is_colliding():
+		spawn_bullet_hole()
 		collider = get_collider()
 	return collider
+
+func align_with_y(body, new_y):
+	var xform = body.global_transform
+	xform.basis.y = new_y
+	xform.basis.x = -xform.basis.z.cross(new_y)
+	xform.basis = xform.basis.orthonormalized()
+	return xform
+
+func spawn_bullet_hole() -> void:
+	var bullet_hole := BULLET_HOLE.instantiate() as Sprite3D
+	owner.owner.add_child(bullet_hole)
+	
+	var bh_normal := get_collision_normal()
+	bullet_hole.position = get_collision_point() + (bh_normal / 50)
+	if bh_normal != Vector3.FORWARD and bh_normal != Vector3.BACK:
+		bullet_hole.global_transform = align_with_y(bullet_hole, bh_normal)
+	else:
+		bullet_hole.rotation_degrees.x = 90
+	print(bullet_hole.global_position)
 
 func enter_ads() -> void:
 	var ads_tween := get_tree().create_tween()

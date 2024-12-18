@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Blaster" load_steps=3 format=3 uid="uid://ba7pgfiqosqty"]
+
+[ext_resource type="Script" path="res://Scripts/Resources/blaster.gd" id="1_x0bo2"]
+[ext_resource type="PackedScene" uid="uid://j4fyx0qmv2au" path="res://Assets/Models/Blasters/Kenney/blasterB.glb" id="2_x0bo2"]
+
+[resource]
+script = ExtResource("1_x0bo2")
+model = ExtResource("2_x0bo2")
+base_offset = Vector3(0.2, -0.135, -0.4)
+ads_offset = Vector3(0, -0.135, -0.4)
+can_shoot = true
+can_ads = true
+fire_rate = 0.15
+base_recoil = 0.03
+ads_recoil = 0.01
+damage = 25.0
+metadata/_custom_type_script = ExtResource("1_x0bo2")

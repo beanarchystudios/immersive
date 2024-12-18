@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cam77nl8tymmk"]
+[gd_scene load_steps=14 format=3 uid="uid://cam77nl8tymmk"]
 
 [ext_resource type="PackedScene" uid="uid://et4uuqnudplt" path="res://Scenes/Player/player.tscn" id="1_dptpw"]
 [ext_resource type="Shader" uid="uid://csyqag4g3dh0a" path="res://Shaders/grid.tres" id="1_nh8v7"]
@@ -15,9 +15,17 @@ size = Vector2(2000, 2000)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dabgt"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_dptpw"]
+size = Vector3(10, 5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dptpw"]
+albedo_color = Color(0, 1, 0.211765, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mcjj0"]
+material = SubResource("StandardMaterial3D_dptpw")
+size = Vector3(10, 5, 1)
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dptpw"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
 [sub_resource type="Sky" id="Sky_dabgt"]
 sky_material = SubResource("ProceduralSkyMaterial_dptpw")
@@ -28,6 +36,13 @@ sky = SubResource("Sky_dabgt")
 tonemap_mode = 2
 glow_enabled = true
 glow_bloom = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_dptpw"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dptpw"]
+radius = 0.25
 
 [node name="Playground" type="Node3D"]
 
@@ -40,13 +55,32 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape3D_dabgt")
 
+[node name="Wall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall"]
+shape = SubResource("BoxShape3D_dptpw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall"]
+mesh = SubResource("BoxMesh_mcjj0")
+
 [node name="Lighting" type="Node3D" parent="."]
 
 [node name="Sun" type="DirectionalLight3D" parent="Lighting"]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_energy = 0.5
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Lighting"]
 environment = SubResource("Environment_mcjj0")
 
 [node name="Player" parent="." instance=ExtResource("1_dptpw")]
+
+[node name="Ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.28668, 1.07068, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
+mesh = SubResource("SphereMesh_dptpw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("SphereShape3D_dptpw")

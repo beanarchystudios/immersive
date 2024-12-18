@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://b6um36yban1w"]
+
+[ext_resource type="Script" path="res://Scripts/Player/HUD/hud.gd" id="1_43g36"]
+[ext_resource type="Script" path="res://Scripts/Player/HUD/debug_label.gd" id="1_h5oin"]
+[ext_resource type="PackedScene" uid="uid://b4xscquporkea" path="res://Scenes/Player/HUD/minimap.tscn" id="2_ft707"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uvnfx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_bottom_right = 8
+corner_detail = 5
+
+[sub_resource type="Theme" id="Theme_a3d8c"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_uvnfx")
+
+[sub_resource type="LabelSettings" id="LabelSettings_uvnfx"]
+font_size = 24
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_43g36")
+
+[node name="DebugPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(600, 200)
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_a3d8c")
+
+[node name="DebugLabel" type="Label" parent="DebugPanel"]
+layout_mode = 2
+text = "FPS: "
+label_settings = SubResource("LabelSettings_uvnfx")
+horizontal_alignment = 1
+script = ExtResource("1_h5oin")
+
+[node name="Minimap" parent="." instance=ExtResource("2_ft707")]

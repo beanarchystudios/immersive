@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4xscquporkea"]
+
+[ext_resource type="Script" path="res://Scripts/Player/HUD/minimap_camera.gd" id="1_fuyul"]
+[ext_resource type="Texture2D" uid="uid://dtosfwym11sbn" path="res://Assets/Sprites/minimap-player.svg" id="2_cq1v7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fuyul"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Minimap" type="Control"]
+layout_mode = 3
+anchor_left = 0.979167
+anchor_right = 1.0
+anchor_bottom = 0.037037
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="MinimapPanel" type="PanelContainer" parent="."]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 400.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fuyul")
+
+[node name="MinimapViewportContainer" type="SubViewportContainer" parent="MinimapPanel"]
+layout_mode = 2
+
+[node name="MinimapViewport" type="SubViewport" parent="MinimapPanel/MinimapViewportContainer"]
+handle_input_locally = false
+size = Vector2i(384, 384)
+render_target_update_mode = 4
+
+[node name="MinimapCamera" type="Camera3D" parent="MinimapPanel/MinimapViewportContainer/MinimapViewport"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+projection = 1
+current = true
+size = 15.0
+script = ExtResource("1_fuyul")
+
+[node name="Player" type="TextureRect" parent="MinimapPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_cq1v7")

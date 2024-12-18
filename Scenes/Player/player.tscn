@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://et4uuqnudplt"]
+
+[ext_resource type="Script" path="res://Scripts/Player/player.gd" id="1_uvnfx"]
+[ext_resource type="PackedScene" uid="uid://cxv515csr63hw" path="res://Scenes/Player/Abilities/shoot.tscn" id="2_a3d8c"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tugb3"]
+radius = 0.3
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uvnfx"]
+radius = 0.3
+height = 1.25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uvnfx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_bottom_right = 8
+corner_detail = 5
+
+[sub_resource type="Theme" id="Theme_a3d8c"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_uvnfx")
+
+[sub_resource type="LabelSettings" id="LabelSettings_uvnfx"]
+font_size = 24
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_uvnfx")
+
+[node name="BaseCollider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_tugb3")
+
+[node name="CrouchCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.375, 0)
+shape = SubResource("CapsuleShape3D_uvnfx")
+disabled = true
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera" type="Camera3D" parent="Pivot"]
+near = 0.001
+
+[node name="Shoot" parent="Pivot" instance=ExtResource("2_a3d8c")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="DebugPanel" type="PanelContainer" parent="HUD"]
+custom_minimum_size = Vector2(600, 200)
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_a3d8c")
+
+[node name="DebugLabel" type="Label" parent="HUD/DebugPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FPS: "
+label_settings = SubResource("LabelSettings_uvnfx")
+horizontal_alignment = 1

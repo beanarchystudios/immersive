@@ -15,7 +15,9 @@ const BULLET_HOLE = preload("res://Scenes/Effects/bullet_hole.tscn")
 @export_group("Sway")
 @export_range(0.5, 10.0, 0.1) var sway_lerp := 5.0
 @export_range(0.5, 10.0, 0.1) var sway_threshold := 5.0
-@export_range(0.01, 1.0, 0.01) var sway_amount := 0.1
+@export_range(0.01, 1.0, 0.01) var base_sway_amount := 0.1
+@export_range(0.01, 1.0, 0.01) var ads_sway_amount := 0.025
+@export_range(0.0, 1.0, 0.01) var sway_position_amount := 0.01
 
 
 var current_blaster := 0:
@@ -24,19 +26,26 @@ var current_blaster := 0:
 		current_blaster %= blaster_resources.size()
 		change_blaster(current_blaster)
 
+var ads_tween: Tween
 var blaster_node: Node3D = null
 var blaster_resource: Blaster = null
 
 var ads := false
+var sway_amount: float = 0.0
 var mouse_mov := Vector2.ZERO
+var pos_sway := 0.0
 
 func _input(event: InputEvent) -> void:
 	if event.is_action("ads"):
 		ads = event.is_pressed()
 		if ads:
+			ads = false
 			enter_ads()
+			sway_amount = ads_sway_amount
 		else:
+			ads = true
 			leave_ads()
+			sway_amount = base_sway_amount
 	elif event.is_action_pressed("next_blaster"):
 		current_blaster += 1
 	elif event.is_action_pressed("prev_blaster"):
@@ -46,6 +55,7 @@ func _input(event: InputEvent) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	sway_amount = base_sway_amount
 	current_blaster = 0
 
 func _physics_process(delta: float) -> void:
@@ -54,8 +64,15 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("shoot") and fire_rate_timer.is_stopped() and blaster_node and blaster_resource and blaster_resource.can_shoot:
 		print(shoot())
 
-# Sway the blaster based on mouse movement.
+## Sway the blaster based movement.
 func sway_blaster(delta: float) -> void:
+	# Sway with player movement.
+	if not ads:
+		if not is_zero_approx(owner.input_dir.x):
+			pos_sway = lerpf(pos_sway, -owner.input_dir.x * sway_position_amount, delta * sway_lerp)
+			handle.position.x = (blaster_resource.base_offset.x + pos_sway) * CLIP_SCALE
+	
+	# Sway with mouse movement.
 	if not mouse_mov.is_zero_approx() and blaster_node:
 		if not is_zero_approx(mouse_mov.x):
 			if mouse_mov.x < -sway_threshold: # Sway left.
@@ -138,13 +155,17 @@ func spawn_bullet_hole() -> void:
 	print(bullet_hole.global_position)
 
 func enter_ads() -> void:
-	var ads_tween := get_tree().create_tween()
+	ads_tween = get_tree().create_tween()
 	ads_tween.set_ease(Tween.EASE_IN_OUT)
 	ads_tween.set_trans(Tween.TRANS_QUAD)
 	ads_tween.tween_property(handle, "position", blaster_resource.ads_offset * CLIP_SCALE, ADS_TRANSITION_TIME)
+	await ads_tween.finished
+	ads = true
 
 func leave_ads() -> void:
-	var ads_tween := get_tree().create_tween()
+	ads_tween = get_tree().create_tween()
 	ads_tween.set_ease(Tween.EASE_IN_OUT)
 	ads_tween.set_trans(Tween.TRANS_QUAD)
 	ads_tween.tween_property(handle, "position", blaster_resource.base_offset * CLIP_SCALE, ADS_TRANSITION_TIME)
+	await ads_tween.finished
+	ads = false

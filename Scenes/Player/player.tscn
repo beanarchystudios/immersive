@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://et4uuqnudplt"]
+[gd_scene load_steps=7 format=3 uid="uid://et4uuqnudplt"]
 
-[ext_resource type="Script" path="res://Scripts/Player/player.gd" id="1_uvnfx"]
+[ext_resource type="Script" uid="uid://h71vx586hpx7" path="res://Scripts/Player/player.gd" id="1_uvnfx"]
 [ext_resource type="PackedScene" uid="uid://cxv515csr63hw" path="res://Scenes/Player/Abilities/shoot.tscn" id="2_a3d8c"]
 [ext_resource type="PackedScene" uid="uid://bogecjmyjgjjv" path="res://Scenes/Player/Abilities/interact.tscn" id="3_htcer"]
 [ext_resource type="PackedScene" uid="uid://b6um36yban1w" path="res://Scenes/Player/hud.tscn" id="3_xpcdj"]
-[ext_resource type="Script" path="res://Scripts/Player/HUD/hud.gd" id="5_htcer"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tugb3"]
 radius = 0.3
@@ -38,4 +37,3 @@ far = 2000.0
 target_position = Vector3(0, 0, -2.5)
 
 [node name="HUD" parent="." instance=ExtResource("3_xpcdj")]
-script = ExtResource("5_htcer")

@@ -51,9 +51,13 @@ const CROUCH_PIVOT_Y = 0.0
 @onready var _camera: Camera3D = $Pivot/Camera
 @onready var _base_collider: CollisionShape3D = $BaseCollider
 @onready var _crouch_collider: CollisionShape3D = $CrouchCollider
+@onready var _minimap_node: Control = $HUD/Minimap
 
 ## The sensitivity of the mouse for turning the camera.
 @export var mouse_sensitivity := 0.002
+
+## Enable the minimap.
+@export var minimap := false
 
 @export_group("Movement")
 ## The max speed of the character when walking.
@@ -108,6 +112,7 @@ func _ready() -> void:
 	speed = walk_speed
 	
 	_crouch_collider.disabled = true
+	_minimap_node.visible = minimap
 	if not OS.has_feature("web"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 

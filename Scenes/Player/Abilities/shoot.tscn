@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cxv515csr63hw"]
 
-[ext_resource type="Script" path="res://Scripts/Player/Abilities/shoot.gd" id="1_7mmsb"]
+[ext_resource type="Script" uid="uid://dlv1mjsw2aigq" path="res://Scripts/Player/Abilities/shoot.gd" id="1_7mmsb"]
 
 [node name="Shoot" type="RayCast3D"]
 target_position = Vector3(0, 0, -50)

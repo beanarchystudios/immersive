@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://b6um36yban1w"]
 
-[ext_resource type="Script" path="res://Scripts/Player/HUD/hud.gd" id="1_43g36"]
-[ext_resource type="Script" path="res://Scripts/Player/HUD/debug_label.gd" id="1_h5oin"]
+[ext_resource type="Script" uid="uid://dueitcruu4mc5" path="res://Scripts/Player/HUD/hud.gd" id="1_43g36"]
+[ext_resource type="Script" uid="uid://dbbxyw7nobrrc" path="res://Scripts/Player/HUD/debug_label.gd" id="1_h5oin"]
 [ext_resource type="PackedScene" uid="uid://b4xscquporkea" path="res://Scenes/Player/HUD/minimap.tscn" id="2_ft707"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uvnfx"]

@@ -28,7 +28,7 @@ disabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="Camera" type="Camera3D" parent="Pivot"]
-near = 0.002
+near = 0.01
 far = 2000.0
 
 [node name="Shoot" parent="Pivot" instance=ExtResource("2_a3d8c")]

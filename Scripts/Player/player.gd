@@ -121,8 +121,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		_pivot.rotate_x(-event.relative.y * mouse_sensitivity)
 		_pivot.rotation.x = clampf(_pivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-	elif event is InputEventMouseButton:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("noclip") and OS.has_feature("debug"):
@@ -134,6 +132,9 @@ func _input(event: InputEvent) -> void:
 		running = event.is_pressed()
 	elif event.is_action("crouch"):
 		crouching = event.is_pressed()
+	elif event is InputEventMouseButton:
+		if PauseLayer.game_paused: return
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 ## Handles the movement of the character while on the ground.
 func handle_ground_movement(_delta: float) -> void:
@@ -208,6 +209,8 @@ func handle_states() -> void:
 			movement_state = MovementState.FALLING
 
 func _physics_process(delta: float) -> void:
+	if PauseLayer.game_paused: return
+	
 	input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 

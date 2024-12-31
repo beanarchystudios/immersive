@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://f3ggbbhjgbdh"]
+
+[ext_resource type="Script" uid="uid://dh52s285cxtox" path="res://Scripts/Menus/pause_layer.gd" id="1_yfpl8"]
+
+[node name="PauseLayer" type="CanvasLayer"]
+script = ExtResource("1_yfpl8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.196078)
+
+[node name="PauseMargin" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="PausePanel" type="PanelContainer" parent="PauseMargin"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="PauseHBox" type="HBoxContainer" parent="PauseMargin/PausePanel"]
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="PauseMargin/PausePanel/PauseHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resume"
+
+[node name="Options" type="Button" parent="PauseMargin/PausePanel/PauseHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Options"
+
+[node name="Quit" type="Button" parent="PauseMargin/PausePanel/PauseHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Quit"
+
+[connection signal="pressed" from="PauseMargin/PausePanel/PauseHBox/Resume" to="." method="resume"]
+[connection signal="pressed" from="PauseMargin/PausePanel/PauseHBox/Options" to="." method="show_options"]
+[connection signal="pressed" from="PauseMargin/PausePanel/PauseHBox/Quit" to="." method="quit"]

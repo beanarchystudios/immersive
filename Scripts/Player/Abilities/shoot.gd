@@ -1,6 +1,6 @@
 class_name Shoot extends RayCast3D
 
-const CLIP_SCALE = 0.05
+const CLIP_SCALE = 0.35
 const ADS_TRANSITION_TIME = 0.15
 const BULLET_HOLE = preload("res://Scenes/Effects/bullet_hole.tscn")
 
@@ -59,6 +59,9 @@ func _ready() -> void:
 	current_blaster = 0
 
 func _physics_process(delta: float) -> void:
+	print(PauseLayer.game_paused)
+	if PauseLayer.game_paused: return
+	
 	sway_blaster(delta)
 	
 	if Input.is_action_pressed("shoot") and fire_rate_timer.is_stopped() and blaster_node and blaster_resource and blaster_resource.can_shoot:

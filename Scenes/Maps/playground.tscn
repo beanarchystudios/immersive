@@ -1,6 +1,5 @@
-[gd_scene load_steps=14 format=3 uid="uid://cam77nl8tymmk"]
+[gd_scene load_steps=13 format=3 uid="uid://cam77nl8tymmk"]
 
-[ext_resource type="PackedScene" uid="uid://et4uuqnudplt" path="res://Scenes/Player/player.tscn" id="1_dptpw"]
 [ext_resource type="Shader" uid="uid://csyqag4g3dh0a" path="res://Shaders/grid.tres" id="1_nh8v7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dptpw"]
@@ -73,8 +72,6 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Lighting"]
 environment = SubResource("Environment_mcjj0")
-
-[node name="Player" parent="." instance=ExtResource("1_dptpw")]
 
 [node name="Ball" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.28668, 1.07068, 0)

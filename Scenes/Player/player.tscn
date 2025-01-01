@@ -1,9 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://et4uuqnudplt"]
+[gd_scene load_steps=9 format=3 uid="uid://et4uuqnudplt"]
 
 [ext_resource type="Script" uid="uid://h71vx586hpx7" path="res://Scripts/Player/player.gd" id="1_uvnfx"]
 [ext_resource type="PackedScene" uid="uid://cxv515csr63hw" path="res://Scenes/Player/Abilities/shoot.tscn" id="2_a3d8c"]
 [ext_resource type="PackedScene" uid="uid://bogecjmyjgjjv" path="res://Scenes/Player/Abilities/interact.tscn" id="3_htcer"]
 [ext_resource type="PackedScene" uid="uid://b6um36yban1w" path="res://Scenes/Player/hud.tscn" id="3_xpcdj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtuoh"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mtuoh"]
+material = SubResource("StandardMaterial3D_mtuoh")
+radius = 0.3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tugb3"]
 radius = 0.3
@@ -14,7 +20,13 @@ height = 1.25
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
 script = ExtResource("1_uvnfx")
+
+[node name="BaseMesh" type="MeshInstance3D" parent="."]
+layers = 2
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_mtuoh")
 
 [node name="BaseCollider" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_tugb3")

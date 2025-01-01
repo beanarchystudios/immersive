@@ -211,15 +211,12 @@ func handle_states() -> void:
 func _physics_process(delta: float) -> void:
 	if PauseLayer.game_paused: return
 	
-	input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	#input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	handle_states()
 	if not noclip:
 		if is_on_floor():
-			# Handle jump.
-			if Input.is_action_just_pressed("jump"):
-				velocity.y = jump_velocity
 			handle_ground_movement(delta)
 		else:
 			handle_air_movement(delta)
@@ -227,3 +224,7 @@ func _physics_process(delta: float) -> void:
 		handle_noclip(delta)
 	
 	move_and_slide()
+
+func jump() -> void:
+	if is_on_floor():
+		velocity.y = jump_velocity

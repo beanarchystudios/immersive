@@ -11,6 +11,8 @@ func bridgeToJS(cb):
 
 @onready var console = JavaScriptBridge.get_interface("console")
 
+var is_mobile := false
+
 var player_states = []
 var player_scenes = []
 var player_joysticks = []
@@ -57,6 +59,12 @@ func onPlayerJoin(args):
 	player_joysticks.push_back(joystick)
 	player_scenes.push_back(player)
 	
+	if OS.has_feature("web"):
+		is_mobile = bool(JavaScriptBridge.eval("window.orientation > -1;"))
+		print("On mobile device: ", is_mobile)
+		if not is_mobile:
+			joystick.destroy()
+	
 	# Listen to onQuit event
 	var onQuitCb = func onPlayerQuit(args):
 		print("player quit: ", state.id)
@@ -85,32 +93,18 @@ func addJoystickToPlayer(state):
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	for i in player_joysticks.size():
+	for i in player_scenes.size():
 		var joystick = player_joysticks[i]
 		var state = player_states[i]
 		var scene = player_scenes[i]
-		if (Playroom.isHost()):
+		if (Playroom.me().id == scene.name):
 			var dpad = joystick.dpad()
 			
-			if dpad.x == "left":
-				scene.input_dir.x = -1
-			elif dpad.x == "right":
-				scene.input_dir.x = 1
-			else:
-				scene.input_dir.x = 0
+			scene.input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 			
-			if dpad.y == "up":
-				scene.input_dir.y = -1
-			elif dpad.y == "down":
-				scene.input_dir.y = 1
-			else:
-				scene.input_dir.y = 0
-			scene.input_dir = scene.input_dir.normalized()
+			if Input.is_action_just_pressed("jump") or joystick.isPressed("jump"):
+				scene.jump()
 			
-			#if joystick.isPressed("jump"):
-			if Input.is_action_just_pressed("jump"):
-				if scene.name == Playroom.me().id:
-					scene.jump()
 			state.setState("px", scene.get_position().x)
 			state.setState("py", scene.get_position().y)
 			state.setState("pz", scene.get_position().z)

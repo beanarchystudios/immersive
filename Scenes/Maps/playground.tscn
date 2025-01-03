@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cam77nl8tymmk"]
+[gd_scene load_steps=11 format=3 uid="uid://cam77nl8tymmk"]
 
 [ext_resource type="Shader" uid="uid://csyqag4g3dh0a" path="res://Shaders/grid.tres" id="1_nh8v7"]
 
@@ -36,13 +36,6 @@ tonemap_mode = 2
 glow_enabled = true
 glow_bloom = 0.1
 
-[sub_resource type="SphereMesh" id="SphereMesh_dptpw"]
-radius = 0.25
-height = 0.5
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_dptpw"]
-radius = 0.25
-
 [node name="Playground" type="Node3D"]
 
 [node name="Floor" type="StaticBody3D" parent="."]
@@ -72,12 +65,3 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Lighting"]
 environment = SubResource("Environment_mcjj0")
-
-[node name="Ball" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.28668, 1.07068, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
-mesh = SubResource("SphereMesh_dptpw")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
-shape = SubResource("SphereShape3D_dptpw")

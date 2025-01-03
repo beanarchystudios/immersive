@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://et4uuqnudplt"]
+[gd_scene load_steps=8 format=3 uid="uid://et4uuqnudplt"]
 
 [ext_resource type="Script" uid="uid://h71vx586hpx7" path="res://Scripts/Player/player.gd" id="1_uvnfx"]
 [ext_resource type="PackedScene" uid="uid://cxv515csr63hw" path="res://Scenes/Player/Abilities/shoot.tscn" id="2_a3d8c"]
-[ext_resource type="PackedScene" uid="uid://bogecjmyjgjjv" path="res://Scenes/Player/Abilities/interact.tscn" id="3_htcer"]
 [ext_resource type="PackedScene" uid="uid://b6um36yban1w" path="res://Scenes/Player/hud.tscn" id="3_xpcdj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtuoh"]
@@ -44,8 +43,5 @@ near = 0.01
 far = 2000.0
 
 [node name="Shoot" parent="Pivot" instance=ExtResource("2_a3d8c")]
-
-[node name="Interact" parent="Pivot" instance=ExtResource("3_htcer")]
-target_position = Vector3(0, 0, -2.5)
 
 [node name="HUD" parent="." instance=ExtResource("3_xpcdj")]

@@ -55,6 +55,10 @@ const CROUCH_PIVOT_Y = 0.0
 
 ## The sensitivity of the mouse for turning the camera.
 @export var mouse_sensitivity := 0.002
+## The sensitivity of the right joystick for turning the camera.
+@export var joystick_sensitivity := 0.045
+## The deadzone of the right joystick.
+@export var joystick_deadzone := 0.15
 
 ## Enable the minimap.
 @export var minimap := false
@@ -208,15 +212,27 @@ func handle_states() -> void:
 		elif velocity.y < 0.0:
 			movement_state = MovementState.FALLING
 
+func handle_right_stick_look(delta: float) -> void:
+	var look_vector := Vector2(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), -Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
+	if look_vector.length() < joystick_deadzone: return
+	
+	rotate_y(look_vector.x * joystick_sensitivity)
+	_pivot.rotate_x(look_vector.y * joystick_sensitivity)
+	_pivot.rotation.x = clampf(_pivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+
 func _physics_process(delta: float) -> void:
 	if PauseLayer.game_paused: return
 	
-	#input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if not OS.has_feature("web"):
+		input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	handle_states()
+	handle_right_stick_look(delta)
 	if not noclip:
 		if is_on_floor():
+			if not OS.has_feature("web") and Input.is_action_just_pressed("jump"):
+				jump()
 			handle_ground_movement(delta)
 		else:
 			handle_air_movement(delta)

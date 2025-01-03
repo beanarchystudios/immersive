@@ -147,7 +147,7 @@ func align_with_y(body, new_y):
 
 func spawn_bullet_hole() -> void:
 	var bullet_hole := BULLET_HOLE.instantiate() as Sprite3D
-	owner.owner.add_child(bullet_hole)
+	get_tree().current_scene.add_child(bullet_hole)
 	
 	var bh_normal := get_collision_normal()
 	bullet_hole.position = get_collision_point() + (bh_normal / 50)
